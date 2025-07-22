@@ -40,8 +40,6 @@ export default function ActivityIndicatorDemo() {
           </View>
         </View>
       </View>
-
-
     </View>
   );
 }

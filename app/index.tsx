@@ -1,29 +1,10 @@
-import { useHeaderHeight } from '@react-navigation/elements';
-import { LegendList } from '@legendapp/list';
-import { cssInterop } from 'nativewind';
-import * as React from 'react';
-import { Linking, useWindowDimensions, View, Alert } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import {
-  ESTIMATED_ITEM_HEIGHT,
-  List,
-  ListItem,
-  ListSectionHeader,
-} from '~/components/nativewindui/List';
-import { Icon } from '@roninoss/icons';
-
-import { Text } from '~/components/nativewindui/Text';
-
-import { useColorScheme } from '~/lib/useColorScheme';
-import { useHeaderSearchBar } from '~/lib/useHeaderSearchBar';
+import { AdaptiveSearchHeader } from '~/components/nativewindui/AdaptiveSearchHeader';
+import { ESTIMATED_ITEM_HEIGHT, List, ListItem } from '~/components/nativewindui/List';
 import { Link } from 'expo-router';
+import { useState } from 'react';
 
 export default function Screen() {
-  // const searchValue = useHeaderSearchBar({ hideWhenScrolling: COMPONENTS.length === 0 });
-
-  // const data = searchValue
-  //   ? COMPONENTS.filter((c) => c.name.toLowerCase().includes(searchValue.toLowerCase()))
-  //   : COMPONENTS;
+  const [searchValue, setSearchValue] = useState('');
 
   const DEMO_PAGES = [
     {
@@ -48,20 +29,48 @@ export default function Screen() {
     },
   ];
 
+  // Filter data based on search query
+  const filteredData = searchValue
+    ? DEMO_PAGES.filter(
+      (item) =>
+        item.title.toLowerCase().includes(searchValue.toLowerCase()) ||
+        item.subTitle.toLowerCase().includes(searchValue.toLowerCase())
+    )
+    : DEMO_PAGES;
+
+  // Update section flags for filtered data
+  const dataWithSections = filteredData.map((item, index) => ({
+    ...item,
+    isFirstInSection: index === 0,
+    isLastInSection: index === filteredData.length - 1,
+  }));
+
   return (
-    <List
-      variant="insets"
-      contentInsetAdjustmentBehavior="automatic"
-      data={DEMO_PAGES}
-      estimatedItemSize={ESTIMATED_ITEM_HEIGHT.withSubTitle}
-      renderItem={(info) => {
-        return (
-          <Link asChild href={(info.item as any).href}>
-            <ListItem {...info} />
-          </Link>
-        );
-      }}
-      keyExtractor={(item) => (item as any).id}
-    />
+    <>
+      <AdaptiveSearchHeader
+        iosIsLargeTitle
+        iosTitle="NativeWindUI"
+        searchBar={{
+          materialBlurOnSubmit: true,
+          placeholder: 'Search demos...',
+          onChangeText: setSearchValue,
+          iosHideWhenScrolling: false,
+        }}
+      />
+      <List
+        variant="insets"
+        contentInsetAdjustmentBehavior="automatic"
+        data={dataWithSections}
+        estimatedItemSize={ESTIMATED_ITEM_HEIGHT.withSubTitle}
+        renderItem={(info) => {
+          return (
+            <Link asChild href={(info.item as any).href}>
+              <ListItem {...info} />
+            </Link>
+          );
+        }}
+        keyExtractor={(item) => (item as any).id}
+      />
+    </>
   );
 }

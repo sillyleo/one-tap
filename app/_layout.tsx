@@ -2,7 +2,7 @@ import { ThemeProvider as NavThemeProvider } from '@react-navigation/native';
 import { Icon } from '@roninoss/icons';
 import 'expo-dev-client';
 import '../global.css';
-
+import { PortalHost } from '@rn-primitives/portal';
 import { Link, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { Pressable, View } from 'react-native';
@@ -35,6 +35,7 @@ export default function RootLayout() {
             <Stack.Screen name="index" options={INDEX_OPTIONS} />
             <Stack.Screen name="modal" options={MODAL_OPTIONS} />
           </Stack>
+          <PortalHost />
         </NavThemeProvider>
       </ActionSheetProvider>
       {/* </ExampleProvider> */}
