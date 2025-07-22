@@ -1,10 +1,14 @@
 import { AdaptiveSearchHeader } from '~/components/nativewindui/AdaptiveSearchHeader';
 import { ESTIMATED_ITEM_HEIGHT, List, ListItem } from '~/components/nativewindui/List';
-import { Link } from 'expo-router';
-import { useState } from 'react';
+import { Link, router } from 'expo-router';
+import { useState, useRef } from 'react';
+import type { AdaptiveSearchBarRef } from '~/components/nativewindui/AdaptiveSearchHeader/types';
 
 export default function Screen() {
   const [searchValue, setSearchValue] = useState('');
+  const searchRef = useRef<AdaptiveSearchBarRef | null>(null);
+
+  console.log('Search value:', searchValue); // Debug log
 
   const DEMO_PAGES = [
     {
@@ -38,6 +42,8 @@ export default function Screen() {
     )
     : DEMO_PAGES;
 
+  console.log('Filtered data length:', filteredData.length); // Debug log
+
   // Update section flags for filtered data
   const dataWithSections = filteredData.map((item, index) => ({
     ...item,
@@ -51,10 +57,32 @@ export default function Screen() {
         iosIsLargeTitle
         iosTitle="NativeWindUI"
         searchBar={{
-          materialBlurOnSubmit: true,
           placeholder: 'Search demos...',
           onChangeText: setSearchValue,
           iosHideWhenScrolling: false,
+          ref: searchRef,
+          content: (
+            <List
+              variant="insets"
+              contentInsetAdjustmentBehavior="automatic"
+              data={dataWithSections}
+              estimatedItemSize={ESTIMATED_ITEM_HEIGHT.withSubTitle}
+              renderItem={(info) => {
+                return (
+                  <Link asChild href={(info.item as any).href}>
+                    <ListItem onPress={() => {
+                      // Dismiss search mode before navigation
+                      if (searchRef.current) {
+                        searchRef.current.cancelSearch();
+                      }
+                      router.push((info.item as any).href);
+                    }} {...info} />
+                  </Link>
+                );
+              }}
+              keyExtractor={(item) => (item as any).id}
+            />
+          ),
         }}
       />
       <List
