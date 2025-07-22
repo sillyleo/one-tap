@@ -8,7 +8,7 @@ import {
   ESTIMATED_ITEM_HEIGHT,
   List,
   ListItem,
-  ListSectionHeader
+  ListSectionHeader,
 } from '~/components/nativewindui/List';
 import { Icon } from '@roninoss/icons';
 
@@ -17,7 +17,6 @@ import { Text } from '~/components/nativewindui/Text';
 import { useColorScheme } from '~/lib/useColorScheme';
 import { useHeaderSearchBar } from '~/lib/useHeaderSearchBar';
 import { Link } from 'expo-router';
-
 
 export default function Screen() {
   // const searchValue = useHeaderSearchBar({ hideWhenScrolling: COMPONENTS.length === 0 });
@@ -29,33 +28,40 @@ export default function Screen() {
   const DEMO_PAGES = [
     {
       id: '1',
-      title: 'Hello',
-      subTitle: 'World',
+      title: 'Text Demo',
+      subTitle: 'Typography components and variants',
       isFirstInSection: true,
       href: '/demo/text-demo',
     },
     {
       id: '2',
-      title: 'Hello',
-      subTitle: 'World',
+      title: 'Action Sheet',
+      subTitle: 'Native action sheets with theme support',
       href: '/demo/action-sheet-demo',
+    },
+    {
+      id: '3',
+      title: 'Activity Indicator',
+      subTitle: 'Loading indicators with custom styling',
+      href: '/demo/activity-indicator-demo',
       isLastInSection: true,
     },
-
-
-  ]
+  ];
 
   return (
     <List
-      variant='insets'
+      variant="insets"
       contentInsetAdjustmentBehavior="automatic"
       data={DEMO_PAGES}
       estimatedItemSize={ESTIMATED_ITEM_HEIGHT.withSubTitle}
       renderItem={(info) => {
-        return <Link asChild href={(info.item as any).href}><ListItem {...info} /></Link>;
+        return (
+          <Link asChild href={(info.item as any).href}>
+            <ListItem {...info} />
+          </Link>
+        );
       }}
       keyExtractor={(item) => (item as any).id}
     />
   );
 }
-

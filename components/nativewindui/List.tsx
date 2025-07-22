@@ -105,9 +105,9 @@ function ListComponent<T extends ListDataItem>(
         contentInsetAdjustmentBehavior={contentInsetAdjustmentBehavior}
         renderItem={renderItemWithVariant(renderItem, variant, data, sectionHeaderAsGap)}
         contentContainerClassName={cn(
-          "android:px-4",
+          'android:px-4',
           variant === 'insets' && (!data || (typeof data?.[0] !== 'string' && 'pt-4')),
-          contentContainerClassName,
+          contentContainerClassName
         )}
         contentContainerStyle={{
           paddingBottom: Platform.select({
@@ -142,12 +142,12 @@ function renderItemWithVariant<T extends ListDataItem>(
     const nextItem = data?.[args.index + 1];
     return renderItem
       ? renderItem({
-        ...args,
-        variant,
-        isFirstInSection: !previousItem || typeof previousItem === 'string',
-        isLastInSection: !nextItem || typeof nextItem === 'string',
-        sectionHeaderAsGap,
-      })
+          ...args,
+          variant,
+          isFirstInSection: !previousItem || typeof previousItem === 'string',
+          isLastInSection: !nextItem || typeof nextItem === 'string',
+          sectionHeaderAsGap,
+        })
       : null;
   };
 }
@@ -310,14 +310,13 @@ function ListItemComponent<T extends ListDataItem>(
               !leftView && 'mx-4',
               !rightView && 'pr-4',
               !removeSeparator &&
-              (!isLastInSection || variant === 'full-width') &&
-              'ios:border-b ios:border-border/80',
+                (!isLastInSection || variant === 'full-width') &&
+                'ios:border-b ios:border-border/80',
               !removeSeparator &&
-              isFirstInSection &&
-              variant === 'full-width' &&
-              'ios:border-t ios:border-border/80'
-            )}
-          >
+                isFirstInSection &&
+                variant === 'full-width' &&
+                'ios:border-t ios:border-border/80'
+            )}>
             <View className={cn('flex-1', textContentClassName)}>
               <Text numberOfLines={textNumberOfLines} style={titleStyle} className={titleClassName}>
                 {item.title}

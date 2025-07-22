@@ -14,7 +14,7 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 export {
   // Catch any errors thrown by the Layout component.
-  ErrorBoundary
+  ErrorBoundary,
 } from 'expo-router';
 
 export default function RootLayout() {
@@ -30,14 +30,12 @@ export default function RootLayout() {
       {/* WRAP YOUR APP WITH ANY ADDITIONAL PROVIDERS HERE */}
       {/* <ExampleProvider> */}
       <ActionSheetProvider>
-
         <NavThemeProvider value={NAV_THEME[colorScheme]}>
           <Stack screenOptions={SCREEN_OPTIONS}>
             <Stack.Screen name="index" options={INDEX_OPTIONS} />
             <Stack.Screen name="modal" options={MODAL_OPTIONS} />
           </Stack>
         </NavThemeProvider>
-
       </ActionSheetProvider>
       {/* </ExampleProvider> */}
     </>
