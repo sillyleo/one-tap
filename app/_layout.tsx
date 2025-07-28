@@ -51,11 +51,10 @@ const SCREEN_OPTIONS = {
 } as const;
 
 const INDEX_OPTIONS = {
+  headerTransparent: true,
   headerLargeTitle: true,
   title: 'NativeWindUI',
 } as const;
-
-
 
 const MODAL_OPTIONS = {
   presentation: 'modal',
